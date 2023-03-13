@@ -22,7 +22,7 @@
    
   <script>
    EmptyStr="";  ref1="ref1"; 
- b=document.getElementById("txt");function save(){ blob=new Blob([b.innerText],{type:'text/plain;charset=UTF-8'}); a=document.getElementById("ref1");if(a.href){alert(556); URL.revokeObjectURL(a.href);};a.href=URL.createObjectURL(blob);a.downlod="file"; var link = document.createElement('a');link.href = a.href;link.download = "";tt=a.parentNode.insertBefore(link,a);link.click();window.URL.revokeObjectURL(link.href);}
+ b=document.getElementById("txt");function save(){ blob=new Blob([b.innerText],{type:'text/plain;charset=UTF-8'}); a=document.getElementById("ref1");if(a.href){URL.revokeObjectURL(a.href);};a.href=URL.createObjectURL(blob);a.downlod="file"; var link = document.createElement('a');link.href = a.href;link.download = "";tt=a.parentNode.insertBefore(link,a);link.click();window.URL.revokeObjectURL(link.href);}
 
 
 
