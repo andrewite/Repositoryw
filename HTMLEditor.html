@@ -1,0 +1,62 @@
+<html>
+ <head>
+   <meta charset="utf-8">
+   <meta content="width=device-width,initial-scale=1" name="viewport"> 
+   <title>Online HTML Code Editor</title>
+ </head>
+<body>
+ <button onclick="b.innerHTML=b.innerText">
+    <font size=30>[SET CODE] &nbsp;</font></button>&nbsp; 
+ <button onclick="b.innerText=b.innerHTML">
+   <font size=30> [VIEW CODE]</font></button> &nbsp; 
+ <button onclick="save();"><font size=30>[ SAVE ] &nbsp;</font></button> 
+   <a id="ref1" download>Download</a> 
+
+ <div id="txt" class="txt_view" contentEditable=true>
+    <div><br><br></div>
+    <p onclick="b.innerText=EmptyStr;"> click to edit <p> 
+    <br><br>
+ </div>
+
+<!--  <button onclick="b.innerText=EmptyStr;" type="button" data-clipboard-action="copy" data-clipboard-target=".txt_view">Paste</button>  -->
+   
+  <script>
+   EmptyStr="";  ref1="ref1"; 
+ b=document.getElementById("txt");function save(){ blob=new Blob([b.innerText],{type:'text/plain;charset=UTF-8'}); a=document.getElementById("ref1");if(a.href){alert(556); URL.revokeObjectURL(a.href);};a.href=URL.createObjectURL(blob);a.downlod="file"; var link = document.createElement('a');link.href = a.href;link.download = "";tt=a.parentNode.insertBefore(link,a);link.click();window.URL.revokeObjectURL(link.href);}
+
+
+
+async function getClipboardContents() {
+  try {
+    const text = await navigator.clipboard.readText();
+    console.log('Pasted content: ', text);
+  } catch (err) {
+    console.error('Failed to read clipboard contents: ', err);
+  }
+}
+
+
+
+
+async function getClipboardContents() {
+  try {
+    const clipboardItems = await navigator.clipboard.read();
+    for (const clipboardItem of clipboardItems) {
+      for (const type of clipboardItem.types) {
+        const blob = await clipboardItem.getType(type);
+        console.log(URL.createObjectURL(blob));
+      }
+    }
+  } catch (err) {
+    console.error(err.name, err.message);
+  }
+}
+
+//navigator.clipboard.writeText("----");
+//getClipboardContents();
+//getClipboardContents();
+
+</script>
+
+</body>
+</html>
