@@ -4,6 +4,7 @@
    <meta content="width=device-width,initial-scale=1" name="viewport"> 
    <title>Online HTML Code Editor</title>
  </head>
+
 <body>
  <button onclick="b.innerHTML=b.innerText">
     <font size=30>[SET CODE] &nbsp;</font></button>&nbsp; 
@@ -12,17 +13,42 @@
  <button onclick="save();"><font size=30>[ SAVE ] &nbsp;</font></button> 
    <a id="ref1" download>Download</a> 
 
- <div id="txt" class="txt_view" contentEditable=true>
+<div id="txt" onchange="CodeChanged()" contentEditable=true>
+
     <div><br><br></div>
-    <p onclick="b.innerText=EmptyStr;"> click to edit <p> 
+    <p onclick="b.innerText=EmptyStr;"> click to edit </p> 
     <br><br>
  </div>
+
+<div id="RealResult"></div>
+
 
 <!--  <button onclick="b.innerText=EmptyStr;" type="button" data-clipboard-action="copy" data-clipboard-target=".txt_view">Paste</button>  -->
    
   <script>
    EmptyStr="";  ref1="ref1"; 
- b=document.getElementById("txt");function save(){ blob=new Blob([b.innerText],{type:'text/plain;charset=UTF-8'}); a=document.getElementById("ref1");if(a.href){URL.revokeObjectURL(a.href);};a.href=URL.createObjectURL(blob);a.downlod="file"; var link = document.createElement('a');link.href = a.href;link.download = "";tt=a.parentNode.insertBefore(link,a);link.click();window.URL.revokeObjectURL(link.href);}
+b=document.getElementById("txt");
+UnSet_MEM=[];
+UnSet_MEM_pos=-1;
+setTimeout(CodeChanged,1000);
+
+function CodeChanged()
+{
+  document.getElementById("RealResult").innerHTML=b.innerText;
+  setTimeout(CodeChanged,1000);
+}
+
+function save(){
+ blob=new Blob([b.innerText],{type:'text/plain;charset=UTF-8'});  
+ a=document.getElementById("ref1");
+ if(a.href){URL.revokeObjectURL(a.href);}
+ a.href=URL.createObjectURL(blob);a.downlod="file";
+ var link = document.createElement('a');
+ link.href = a.href;
+ link.download = location.hash.substr(1); //filename from url
+ tt=a.parentNode.insertBefore(link,a);
+ link.click();
+ window.URL.revokeObjectURL(link.href);}
 
 
 
@@ -56,7 +82,28 @@ async function getClipboardContents() {
 //getClipboardContents();
 //getClipboardContents();
 
+function SetCode()
+{
+  UnSet_MEM[UnSet_MEM_pos++]=b.innerHTML;
+  UnSet_MEM.length=UnSet_MEM_pos+1;
+
+  oldHTML2=oldHTML;oldHTML=b.innerHTML;b.innerHTML=b.innerText
+}
+
+function Undo()
+{
+  if(UnSet_MEM_pos<0) return;
+  b.innerHTML=UnSet_MEM[UnSet_MEM_pos--];
+}
+function Redo()
+{
+  if(UnSet_MEM_pos>=UnSet_MEM.length()) return;
+  b.innerHTML=UnSet_MEM[UnSet_MEM_pos++];
+}
 </script>
 
+<button onclick="Undo();"><font >UnSet</font></button><br>
+<font style="font-size:0em;color:#bbbbbb;"><br>
+UnSet: only support 1 step of SetCode </font>
 </body>
 </html>
