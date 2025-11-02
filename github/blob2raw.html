@@ -1,0 +1,38 @@
+<html>
+ <head> <meta charset="utf-8">
+ <meta content="width=device-width,minimum-scale=1,initial-scale=1" name="viewport">  </head>
+<body>
+<script>
+
+function XMLHttpResponse(responseText,xmlhttp){
+
+  htmlStr=responseText.replace(/\/blob\/main\//g,"/raw/refs/heads/main/");
+  document.write(htmlStr);
+
+}
+
+  DataRequest_URL=location.search.substring(1);
+  if((DataRequest_URL.indexOf("://")<=0) && (document.referrer.length>0)){
+    DataRequest_URL=new URL(DataRequest_URL,document.referrer);
+    DataRequest_URL=DataRequest_URL.href;
+  }
+
+  xmlhttp=new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function(){
+   if(xmlhttp.readyState==4){
+     if(xmlhttp.status==200){
+       XMLHttpResponse(xmlhttp.responseText,xmlhttp);
+     }else{location.href=DataRequest_URL;}
+   }
+  };
+  xmlhttp.open("GET",DataRequest_URL,true);
+  xmlhttp.send();
+
+
+};
+</script>
+ &lt; Loading...  &gt;
+</body>
+</html>
+
+
