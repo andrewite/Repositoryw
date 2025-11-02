@@ -6,18 +6,74 @@
 
 function XMLHttpResponse(responseText,xmlhttp){
 
-  htmlStr=responseText.replace(/\/blob\/main\//g,"/raw/refs/heads/main/");
+  if((typeof ReplaceFromRegStr!="undefined")&&(typeof ReplaceFromRegStr!="undefined"))
+    htmlStr=responseText.replace( RegExp(decodeURI(ReplaceFromRegStr),ReplaceFromRegFlag),
+            decodeURI(ReplaceToStr));
+  else htmlStr=responseText;
+
   document.write(htmlStr);
 
 }
 
-  DataRequest_URL=location.search.substring(1);
+function GetArgPosition(url,ArgName){
+  var ArgNameReg=RegExp(ArgName+"=","i");
+  var pos=url.search(ArgNameReg);
+  if(pos>0) pos=url.search(RegExp("[?&]+"+ArgName+"=","i"));
+  if(pos<0) return pos; 
+  var value=url.substr(pos); // skip header of "?&"
+  pos=value.search(ArgNameReg);
+  //value=url.substr(pos);
+  return pos;
+}
+
+
+function GetArgEndPos(url,startPos){
+  var value=url.substr(startPos);
+  var len=value.search(/?&/);
+  if(len<0) len=value.length;
+  return len;
+}
+
+function GetNextArg(url,ArgName,defaultValue){
+  if(url.search(RegExp(ArgName+"=","i"))!=0) return defaultValue;
+  var value=url.substr(ArgName.length+1));
+  var endPos=GetArgEndPos(value,0);  
+  value=url.substr(0,endPos);
+  return value;
+}
+
+function GetArgAndTail(url,ArgName,defaultValue){
+  var pos=GetArgPosition(url,ArgName);
+  if(pos<0)  return {"value":defaultValue,"tail":url};
+  var value=url.substr(pos);
+  var len=GetArgEndPos(value,0);
+  var tail=value.substr(len);
+  value=value.substr(0,len);
+  return {"value":value,"tail":tail};
+}
+
+function SetReplaceRegStr(value){
+  var value_tail=GetArgAndTail(value,"ReplaceFlag","g"); // default: "g" or "gi" 
+  ReplaceFromRegFlag=value_tail.value;value=value_tail.value.tail;
+  value_tail=GetArgAndTail(value,"ReplaceFrom"); // default: undefined 
+  ReplaceFromRegStr=value_tail.value;value=value_tail.value.tail;
+  value_tail=GetArgAndTail(value,"ReplaceTo"); // default: undefined
+  ReplaceToStr=value_tail.value;value=value_tail.value.tail;
+  return value;
+}
+
+
+
+function AjexGetAndWriteToDocument(){
+
+  var DataRequest_URL=SetReplaceRegStr(location.search.substring(1));
+
   if((DataRequest_URL.indexOf("://")<=0) && (document.referrer.length>0)){
     DataRequest_URL=new URL(DataRequest_URL,document.referrer);
     DataRequest_URL=DataRequest_URL.href;
   }
 
-  xmlhttp=new XMLHttpRequest();
+  var xmlhttp=new XMLHttpRequest();
   xmlhttp.onreadystatechange=function(){
    if(xmlhttp.readyState==4){
      if(xmlhttp.status==200){
@@ -28,6 +84,9 @@ function XMLHttpResponse(responseText,xmlhttp){
   xmlhttp.open("GET",DataRequest_URL,true);
   xmlhttp.send();
 
+}
+
+AjexGetAndWriteToDocument();
 
 </script>
  &lt; Loading...  &gt;
