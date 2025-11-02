@@ -2,8 +2,6 @@
 
 
 
-[STM32](https://andrewite.github.io/Repositoryw/github/blob2raw.html?./stm32/)
-
 [stm32f103c8](./stm32/stm32f103c8)  
 [stm32f103c6](./stm32/stm32f103c6)
 
