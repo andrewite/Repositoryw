@@ -7,8 +7,15 @@
 [stm32f103c6](./stm32/stm32f103c6)
 
 
+USB to I2C adapter
+[I2C_Star](https://andrewite.github.io/Repositoryw/stm32/stm32f103c8/i2c-star.hex)  
+https://github.com/daniel-thompson/i2c-star
 
-[flash tools:](./stm32/flashtools)  
+
+
+
+
+[flash tools:](https://andrewite.github.io/Repositoryw/stm32/flashtools/stm32flash)  
 https://github.com/FYSETC/stm32flash
 
 
