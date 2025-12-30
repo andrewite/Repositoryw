@@ -7,9 +7,9 @@
 
 
 USB to I2C adapter
-[I2C_Star](https://andrewite.github.io/Repositoryw/stm32/stm32f103c8/i2c-star.hex)  
-https://github.com/daniel-thompson/i2c-star
-
+[I2C_Star.hex](https://andrewite.github.io/Repositoryw/stm32/stm32f103c8/i2c-star_uartflash.hex)  
+https://github.com/daniel-thompson/i2c-star  
+(https://github.com/daniel-thompson/i2c-star)  
 
 
 3 Virtual COM Ports
